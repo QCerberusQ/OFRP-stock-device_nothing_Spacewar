@@ -1,0 +1,248 @@
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# -----------------------------------------------------------------------------
+# Device path
+# -----------------------------------------------------------------------------
+DEVICE_PATH := device/nothing/Spacewar
+
+# -----------------------------------------------------------------------------
+# Broken rules
+# -----------------------------------------------------------------------------
+BUILD_BROKEN_DUP_RULES := true
+BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+ALLOW_MISSING_DEPENDENCIES := true
+BUILD_BROKEN_MISSING_REQUIRED_MODULES := true
+BUILD_BROKEN_ARTIFACT_PATH_REQUIREMENTS := true
+
+# -----------------------------------------------------------------------------
+# A/B
+# -----------------------------------------------------------------------------
+AB_OTA_UPDATER := true
+
+AB_OTA_PARTITIONS := \
+    boot \
+    dtbo \
+    odm \
+    product \
+    system \
+    system_ext \
+    vbmeta \
+    vbmeta_system \
+    vendor \
+    vendor_dlkm \
+    vendor_boot
+
+# -----------------------------------------------------------------------------
+# Architecture
+# -----------------------------------------------------------------------------
+TARGET_ARCH := arm64
+TARGET_ARCH_VARIANT := armv8-2a-dotprod
+TARGET_CPU_ABI := arm64-v8a
+TARGET_CPU_ABI2 :=
+TARGET_CPU_VARIANT := cortex-a76
+
+TARGET_2ND_ARCH := arm
+TARGET_2ND_ARCH_VARIANT := armv8-a
+TARGET_2ND_CPU_ABI := armeabi-v7a
+TARGET_2ND_CPU_ABI2 := armeabi
+TARGET_2ND_CPU_VARIANT := cortex-a76
+
+ENABLE_CPUSETS := true
+ENABLE_SCHEDBOOST := true
+TARGET_USES_64_BIT_BINDER := true
+TARGET_SUPPORTS_64_BIT_APPS := true
+
+# -----------------------------------------------------------------------------
+# Bootloader
+# -----------------------------------------------------------------------------
+TARGET_BOOTLOADER_BOARD_NAME := Spacewar
+TARGET_NO_BOOTLOADER := true
+TARGET_USES_UEFI := true
+
+# -----------------------------------------------------------------------------
+# Kernel
+# -----------------------------------------------------------------------------
+BOARD_KERNEL_PAGESIZE := 4096
+TARGET_NO_KERNEL := false
+TARGET_KERNEL_ARCH := arm64
+TARGET_KERNEL_HEADER_ARCH := arm64
+BOARD_KERNEL_IMAGE_NAME := Image
+BOARD_BOOT_HEADER_VERSION := 3
+BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
+BOARD_KERNEL_SEPARATED_DTBO := true
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/$(BOARD_KERNEL_IMAGE_NAME)
+
+# -----------------------------------------------------------------------------
+# Kernel CMDLINE (v3 Header Uyumlu)
+# -----------------------------------------------------------------------------
+BOARD_KERNEL_CMDLINE += console=ttyMSM8,115200n8
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE += androidboot.console=ttyMSM8
+BOARD_KERNEL_CMDLINE += androidboot.hardware=qcom
+BOARD_KERNEL_CMDLINE += androidboot.memcg=1
+BOARD_KERNEL_CMDLINE += androidboot.usbcontroller=a600000.dwc3
+BOARD_KERNEL_CMDLINE += service_locator.enable=1
+BOARD_KERNEL_CMDLINE += lpm_levels.sleep_disabled=1
+BOARD_KERNEL_CMDLINE += msm_rtb.filter=0x237
+BOARD_KERNEL_CMDLINE += swiotlb=0
+BOARD_KERNEL_CMDLINE += cgroup.memory=nokmem,nosocket
+BOARD_KERNEL_CMDLINE += pcie_ports=compat
+BOARD_KERNEL_CMDLINE += earlycon=msm_geni_serial,0x880000
+BOARD_KERNEL_CMDLINE += loop.max_part=7
+BOARD_KERNEL_CMDLINE += ip6table_raw.raw_before_defrag=1
+BOARD_KERNEL_CMDLINE += iptable_raw.raw_before_defrag=1
+
+# -----------------------------------------------------------------------------
+# Platform
+# -----------------------------------------------------------------------------
+TARGET_BOARD_PLATFORM := lahaina
+TARGET_HAS_GENERIC_KERNEL_HEADERS := true
+TARGET_BOARD_INFO_FILE := $(DEVICE_PATH)/board-info.txt
+TARGET_OTA_ASSERT_DEVICE := Spacewar
+
+# -----------------------------------------------------------------------------
+# Partitions
+# -----------------------------------------------------------------------------
+BOARD_FLASH_BLOCK_SIZE := 262144
+BOARD_BOOTIMAGE_PARTITION_SIZE := 100663296
+BOARD_DTBOIMG_PARTITION_SIZE := 25165824
+BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := $(BOARD_BOOTIMAGE_PARTITION_SIZE)
+
+BOARD_SUPER_PARTITION_SIZE := 6442450944
+BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
+BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := odm product system system_ext vendor vendor_dlkm
+BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 6438256640
+
+# -----------------------------------------------------------------------------
+# File systems & Vendor DLKM
+# -----------------------------------------------------------------------------
+BOARD_ODMIMAGE_FILE_SYSTEM_TYPE := erofs
+BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
+BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_SYSTEM_EXTIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := erofs
+BOARD_VENDOR_DLKMIMAGE_FILE_SYSTEM_TYPE := erofs
+
+TARGET_COPY_OUT_ODM := odm
+TARGET_COPY_OUT_PRODUCT := product
+TARGET_COPY_OUT_SYSTEM_EXT := system_ext
+TARGET_COPY_OUT_VENDOR := vendor
+TARGET_COPY_OUT_VENDOR_DLKM := vendor_dlkm
+
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
+BOARD_SUPPRESS_SECURE_ERASE := true
+BOARD_RAMDISK_USE_LZ4 := true
+BOARD_USES_VENDOR_DLKMIMAGE := true
+
+# -----------------------------------------------------------------------------
+# System as root
+# -----------------------------------------------------------------------------
+BOARD_ROOT_EXTRA_FOLDERS := bluetooth dsp firmware persist
+BOARD_HAS_LARGE_FILESYSTEM := true
+
+# -----------------------------------------------------------------------------
+# Properties
+# -----------------------------------------------------------------------------
+TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
+
+# -----------------------------------------------------------------------------
+# QCOM
+# -----------------------------------------------------------------------------
+BOARD_USES_QCOM_HARDWARE := true
+
+# -----------------------------------------------------------------------------
+# Recovery
+# -----------------------------------------------------------------------------
+TARGET_NO_RECOVERY := true
+BOARD_USES_RECOVERY_AS_BOOT := true
+TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
+TARGET_RECOVERY_QCOM_RTC_FIX := true
+
+# -----------------------------------------------------------------------------
+# Security patch level
+# -----------------------------------------------------------------------------
+PLATFORM_VERSION := 99.87.36
+PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
+PLATFORM_SECURITY_PATCH := 2099-12-31
+VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
+BOOT_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
+
+# -----------------------------------------------------------------------------
+# AVB
+# -----------------------------------------------------------------------------
+BOARD_AVB_ENABLE := true
+BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3
+BOARD_AVB_VBMETA_SYSTEM := system system_ext product
+BOARD_AVB_VBMETA_SYSTEM_ALGORITHM := SHA256_RSA4096
+BOARD_AVB_VBMETA_SYSTEM_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
+BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
+BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX_LOCATION := 1
+
+# -----------------------------------------------------------------------------
+# Crypto
+# -----------------------------------------------------------------------------
+TW_INCLUDE_CRYPTO := true
+TW_INCLUDE_CRYPTO_FBE := true
+BOARD_USES_METADATA_PARTITION := true
+TW_INCLUDE_FBE_METADATA_DECRYPT := true
+BOARD_USES_QCOM_FBE_DECRYPTION := true
+TW_PREPARE_DATA_MEDIA_EARLY := true
+TW_USE_FSCRYPT_POLICY := 2
+
+# -----------------------------------------------------------------------------
+# TWRP Configuration
+# -----------------------------------------------------------------------------
+# Display
+TW_THEME := portrait_hdpi
+TW_MAX_BRIGHTNESS := 2047
+TW_DEFAULT_BRIGHTNESS := 1200
+TW_FRAMERATE := 120
+TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel0-backlight/brightness"
+
+# Storage
+RECOVERY_SDCARD_ON_DATA := true
+TW_ENABLE_FS_COMPRESSION := true
+TW_ENABLE_BLKDISCARD := true
+TW_EXCLUDE_DEFAULT_USB_INIT := true
+TW_INCLUDE_NTFS_3G := true
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /config/usb_gadget/g1/functions/mass_storage.0/lun.%d/file
+
+# Input
+TW_INPUT_BLACKLIST := "hbtp_vm"
+TW_SUPPORT_INPUT_AIDL_HAPTICS := true
+TW_SUPPORT_INPUT_AIDL_HAPTICS_FQNAME := "IVibrator/default"
+TW_SUPPORT_INPUT_AIDL_HAPTICS_FIX_OFF := true
+
+# Tools
+TW_USE_TOOLBOX := true
+TW_INCLUDE_RESETPROP := true
+TW_INCLUDE_LIBRESETPROP := true
+TW_INCLUDE_REPACKTOOLS := true
+TW_INCLUDE_FASTBOOTD := true
+TW_INCLUDE_LPDUMP := true
+TW_INCLUDE_LPTOOLS := true
+TW_EXCLUDE_APEX := true
+TARGET_USES_MKE2FS := true
+
+# Logging
+TWRP_INCLUDE_LOGCAT := true
+TARGET_USES_LOGD := true
+
+# Hardware
+TW_CUSTOM_CPU_TEMP_PATH := "/sys/devices/virtual/thermal/thermal_zone50/temp"
+TW_USE_HEALTH_SERVICES_FOR_BATTERY := true
+TW_USE_SERIALNO_PROPERTY_FOR_DEVICE_ID := true
+
+# -----------------------------------------------------------------------------
+# Modules Load
+# -----------------------------------------------------------------------------
+TW_LOAD_VENDOR_MODULES := $(shell echo \"$(shell ls $(DEVICE_PATH)/prebuilt/modules)\")
+
+# -----------------------------------------------------------------------------
+# Override System Properties
+# -----------------------------------------------------------------------------
+TW_OVERRIDE_SYSTEM_PROPS := "ro.build.date.utc;ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
